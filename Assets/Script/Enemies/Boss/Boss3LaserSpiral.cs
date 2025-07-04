@@ -36,13 +36,14 @@ public class Boss3LaserSpiral : MonoBehaviour
         if (currentAngle >= 360f) currentAngle -= 360f;
     }
 
-    // 🟢 Dipanggil dari Boss3Controller
+    // Dipanggil dari Boss3Controller
     public void StartFiring()
     {
         isFiring = true;
         fireTimer = 0f;
     }
 
+    // Dipanggil dari Boss3Controller
     public void StopFiring()
     {
         isFiring = false;

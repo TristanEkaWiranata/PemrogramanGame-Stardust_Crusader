@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 
-public class BossRegenShield : MonoBehaviour
+public class BossRegenShield : MonoBehaviour, IShield
 {
     [Header("Shield Settings")]
     public int maxShieldHealth = 5;

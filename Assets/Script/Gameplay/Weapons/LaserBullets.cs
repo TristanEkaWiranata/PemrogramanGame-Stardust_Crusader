@@ -25,18 +25,25 @@ public class LaserBullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Cek apakah objek yang ditabrak adalah obstacle, hancurkan peluru tanpa damage.
         if (other.CompareTag("obstacle"))
         {
             Destroy(gameObject);
             return;
         }
 
-        EnemyShield shield = other.GetComponent<EnemyShield>();
+        // REFAKTOR: Cek apakah objek yang ditabrak memiliki komponen shield (apapun jenisnya)
+        // dengan mencari antarmuka IShield.
+        IShield shield = other.GetComponent<IShield>();
         if (shield != null)
         {
+            // Shield akan menyerap damage.
             int remainingDamage = shield.AbsorbDamage((int)this.bulletDamage);
+
+            // Jika ada sisa damage setelah shield menyerap, teruskan ke badan musuh.
             if (remainingDamage > 0)
             {
+                // Cari komponen IDamageable di parent (badan musuh).
                 IDamageable underlyingEnemy = other.GetComponentInParent<IDamageable>();
                 if (underlyingEnemy != null)
                 {
@@ -48,20 +55,14 @@ public class LaserBullets : MonoBehaviour
             return;
         }
 
+        // Cek apakah objek yang ditabrak bisa menerima damage (implementasi IDamageable).
+        // Ini akan bekerja untuk SEMUA musuh, termasuk Boss1, Boss2, dan Boss3.
         IDamageable damageable = other.GetComponent<IDamageable>();
         if (damageable != null)
         {
             damageable.TakeDamage((int)this.bulletDamage);
             Destroy(gameObject);
             return;
-        }
-
-        // ✅ Tambahan fallback untuk EnemyShip3
-        EnemyShip3 enemyShip3 = other.GetComponent<EnemyShip3>();
-        if (enemyShip3 != null)
-        {
-            enemyShip3.TakeDamage((int)this.bulletDamage);
-            Destroy(gameObject);
         }
     }
 

@@ -198,10 +198,17 @@ public class LevelController : MonoBehaviour
                     boss2.Initialize(bossBattleArea, bossHealthSlider, bossHealthText);
                 }
 
-                // Jika tidak ada skrip bos yang cocok, beri peringatan.
-                if (boss1 == null && boss2 == null)
+                // Coba inisialisasi sebagai Boss3Controller
+                var boss3 = boss.GetComponent<Boss3Controller>();
+                if (boss3 != null)
                 {
-                    Debug.LogWarning($"Prefab bos '{bossPrefab.name}' tidak memiliki skrip Boss1Controller atau Boss2Controller yang bisa diinisialisasi.", boss);
+                    boss3.Initialize(bossBattleArea, bossHealthSlider, bossHealthText, bossShieldSlider, bossShieldText);
+                }
+
+                // Jika tidak ada skrip bos yang cocok, beri peringatan.
+                if (boss1 == null && boss2 == null && boss3 == null)
+                {
+                    Debug.LogWarning($"Prefab bos '{bossPrefab.name}' tidak memiliki skrip Boss1Controller, Boss2Controller, atau Boss3Controller yang bisa diinisialisasi.", boss);
                 }
 
                 bossSpawned = true;
